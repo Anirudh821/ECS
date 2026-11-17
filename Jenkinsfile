@@ -45,7 +45,9 @@ pipeline{
                 """
             }
         }
-        post{
+        
+    }
+    post{
             success{
                 echo "Deployment Sucessful"
             }
@@ -54,5 +56,4 @@ pipeline{
             }
 
         }
-    }
 }
