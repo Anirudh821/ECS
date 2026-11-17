@@ -6,7 +6,7 @@ pipeline{
         ECR="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         REPO="app"
         CLUSTER="emotional-dolphin-r9bn9u"
-        SERVICE="strong-service-v7i2mo:1"
+        SERVICE="strong-service-v7i2mo"
         IMAGE_TAG="${env.GIT_COMMIT.take(7)}"
     }
     stages{
@@ -38,7 +38,6 @@ pipeline{
         }
         stage("ECS deployment"){
             steps{
-                steps{
                     withCredentials([usernamePassword(credentialsId: 'aws-creds',
                          usernameVariable: 'AWS_ACCESS_KEY_ID',
                          passwordVariable: 'AWS_SECRET_ACCESS_KEY')])
@@ -50,10 +49,6 @@ pipeline{
                         --force-new-deployment \
                         --region ${AWS_REGION}
 
-                        aws ecs wait service-stable\
-                        --cluster ${CLUSTER} \
-                        --service ${SERVICE} \
-                        --region ${AWS_REGION}
                 
                     """
                 }
