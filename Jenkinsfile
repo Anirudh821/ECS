@@ -8,6 +8,7 @@ pipeline{
         CLUSTER="emotional-dolphin-r9bn9u"
         SERVICE="strong-service-v7i2mo"
         IMAGE_TAG="${env.GIT_COMMIT.take(7)}"
+        TASK_FAMILY = "strong-service-v7i2mo"
     }
     stages{
         stage("get url"){
