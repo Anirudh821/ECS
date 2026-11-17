@@ -43,7 +43,7 @@ pipeline{
                          usernameVariable: 'AWS_ACCESS_KEY_ID',
                          passwordVariable: 'AWS_SECRET_ACCESS_KEY')])
                 {
-                sh """ 
+                  sh """ 
                         aws ecs update-service \
                         --cluster ${CLUSTER} \
                         --service ${SERVICE} \
