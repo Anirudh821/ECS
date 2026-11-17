@@ -12,7 +12,7 @@ pipeline{
     stages{
         stage("get url"){
             steps{
-                url:"https://github.com/Anirudh821/ECS.git",branch:"main"
+                git url:"https://github.com/Anirudh821/ECS.git",branch:"main"
             }
         }
         stage("docker build"){
