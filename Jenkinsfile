@@ -25,16 +25,24 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId: 'aws-creds',
                          usernameVariable: 'AWS_ACCESS_KEY_ID',
                          passwordVariable: 'AWS_SECRET_ACCESS_KEY')])
-                sh """
+                {
+                  sh """
                     aws ecr get-login-password --region ${AWS_REGION} | \
                     docker login --username AWS --password-stdin ${ECR}
                     docker tag ${REPO}:${IMAGE_TAG} ${ECR}/${REPO}:${IMAGE_TAG}
                     docker push  ${ECR}/${REPO}:${IMAGE_TAG}
-                   """ 
+                   """
+                }
+                 
             }
         }
         stage("ECS deployment"){
             steps{
+                steps{
+                    withCredentials([usernamePassword(credentialsId: 'aws-creds',
+                         usernameVariable: 'AWS_ACCESS_KEY_ID',
+                         passwordVariable: 'AWS_SECRET_ACCESS_KEY')])
+                {
                 sh """ 
                         aws ecs update-service \
                         --cluster ${CLUSTER} \
@@ -46,7 +54,9 @@ pipeline{
                         --cluster ${CLUSTER} \
                         --service ${SERVICE} \
                         --region ${AWS_REGION}
-                """
+                
+                    """
+                }
             }
         }
         
